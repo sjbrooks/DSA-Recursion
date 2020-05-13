@@ -1,30 +1,44 @@
 /** product: calculate the product of an array of numbers. */
 
-function product(nums) {
-  let product = 1;
+// function product(nums) {
+//   let product = 1;
 
-  function _product(nums, i) {
-    if (nums.length === i) return;
-    product *= nums[i];
-    _product(nums, i + 1);
-  }
-  _product(nums, 0);
-  return product;
+//   function _product(nums, i) {
+//     if (nums.length === i) return;
+//     product *= nums[i];
+//     _product(nums, i + 1);
+//   }
+//   _product(nums, 0);
+//   return product;
+// }
+
+function product(nums, i = 0) {
+  if (nums.length === i) return 1;
+  return nums[i] *= product(nums, i + 1);
 }
 
 /** longest: return the length of the longest word in an array of words. */
 
-function longest(words) {
-  let longestWordLength = 0;
+// function longest(words) {
+//   let longestWordLength = 0;
 
-  function _longest(words, i) {
-    if (words.length === i) return;
-    if (words[i].length > longestWordLength) longestWordLength = words[i].length;
-    _longest(words, i + 1);
+//   function _longest(words, i) {
+//     if (words.length === i) return;
+//     if (words[i].length > longestWordLength) longestWordLength = words[i].length;
+//     _longest(words, i + 1);
+//   }
+
+//   _longest(words, 0);
+//   return longestWordLength;
+// }
+
+function longest(words, i = 0, longestWordLength = 0) {
+  if (words.length === i) return longestWordLength;
+  if (words[i].length > longestWordLength) {
+    return longest(words, i + 1, words[i].length) ;
+  } else {
+    return longest(words, i + 1, longestWordLength) 
   }
-
-  _longest(words, 0);
-  return longestWordLength;
 }
 
 /** everyOther: return a string with every other letter. */
@@ -46,7 +60,7 @@ function everyOther(str) {
 
 function isPalindrome(str) {
   let palindromeBool = true;
-  
+
   function _isPalindrome(str, i) {
     if (i === Math.floor(str.length / 2)) return;
     if (str[i] !== str[str.length - 1 - i]) palindromeBool = false;
@@ -91,7 +105,7 @@ function revString(str) {
 
 function gatherStrings(obj) {
   let strings = [];
-  
+
   function _gatherStrings(obj, i) {
     let keys = Object.keys(obj);
 
@@ -105,7 +119,7 @@ function gatherStrings(obj) {
     // if the value at that key is another obj, recurse!
     if (typeof obj[key] === "object") {
       _gatherStrings(obj[key], 0)
-    // otherwise check to see if it's a string; if it is, go ahead and add to our array
+      // otherwise check to see if it's a string; if it is, go ahead and add to our array
     } else if (typeof obj[key] === "string") strings.push(obj[key]);
 
     // iterate through each key
@@ -126,19 +140,19 @@ function binarySearch(arr, val) {
   let max = arr.length;
 
   function _binarySearch(arr, val, min, max) {
-    if (max - min === 1) return;
+    if (min > max) return;
 
-    let i = Math.floor(min + (max - min) / 2);
+    let i = Math.floor((min + max) / 2);
 
     if (arr[i] === val) {
       idx = i;
-      return;
+      return idx;
 
     } else {
       if (arr[i] > val) {
-        _binarySearch(arr, val, min, i);
+        _binarySearch(arr, val, min, i - 1);
       } else {
-        _binarySearch(arr, val, i, max);
+        _binarySearch(arr, val, i + 1, max);
       }
     }
   }
